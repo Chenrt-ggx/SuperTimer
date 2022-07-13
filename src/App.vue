@@ -1,11 +1,147 @@
 <template>
-    <v-app></v-app>
+    <v-app>
+        <div class="text-right dots">
+            <v-icon color="black" size="28" @click="dialog = true">mdi-dots-vertical</v-icon>
+        </div>
+        <div class="text-left grey--text font-weight-light">
+            <span class="title-font" @click="redirect">闹钟</span>
+            <span class="title-font" @click="redirect">时钟</span>
+            <span class="title-font" style="color: #2196f3">秒表</span>
+            <span class="title-font" @click="redirect">计时</span>
+        </div>
+        <v-row class="time-font">
+            <v-spacer></v-spacer>
+            <span class="time-fix">
+                <span>{{ '0'.repeat(2).concat(minute).slice(-2) }}</span>
+                <span class="mx-n1">:</span>
+                <span>{{ '0'.repeat(2).concat(second).slice(-2) }}</span>
+                <span class="mx-n1">.</span>
+                <span>{{ '0'.repeat(2).concat(millisecond).slice(-2) }}</span>
+            </span>
+            <v-spacer></v-spacer>
+        </v-row>
+        <div class="text-center footer-fix">
+            <v-btn color="white" fab large @click="begin" v-if="state === 0">
+                <v-icon color="primary" size="36">mdi-play</v-icon>
+            </v-btn>
+            <div v-if="state === 1">
+                <v-btn color="white" fab large @click="flag">
+                    <v-icon color="primary" size="32">mdi-flag</v-icon>
+                </v-btn>
+                <span class="button-gap"></span>
+                <v-btn color="white" fab large @click="pause">
+                    <v-icon color="primary" size="36">mdi-pause</v-icon>
+                </v-btn>
+            </div>
+            <div v-if="state === 2">
+                <v-btn color="white" fab large @click="stop">
+                    <v-icon color="primary" size="36">mdi-stop</v-icon>
+                </v-btn>
+                <span class="button-gap"></span>
+                <v-btn color="white" fab large @click="restart">
+                    <v-icon color="primary" size="36">mdi-play</v-icon>
+                </v-btn>
+            </div>
+        </div>
+        <v-dialog v-model="dialog" @click:outside="dialog = false">
+            <v-card>
+                <v-card-title>倍率选择</v-card-title>
+                <v-divider></v-divider>
+                <v-card-text class="text-center">
+                    <v-slider
+                        class="mt-10"
+                        v-model="slide"
+                        prepend-icon="mdi-speedometer"
+                        :max="400"
+                        :min="25"
+                    ></v-slider>
+                    {{ '当前倍率: ' + ratio }}
+                    <span class="mx-4">|</span>
+                    {{ '更新倍率: ' + slide / 100 }}
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="error" text dark @click="resetRatio">取消</v-btn>
+                    <v-btn color="success" text dark @click="setRatio">确认</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-app>
 </template>
 
 <script>
 export default {
     data: function () {
-        return {};
+        return {
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+            state: 0,
+            ratio: 1,
+            slide: 100,
+            dialog: false
+        };
+    },
+    methods: {
+        redirect() {
+            window.location = 'https://www.bilibili.com/video/BV1uT4y1P7CX';
+        },
+        setRatio() {
+            this.ratio = this.slide / 100;
+            this.dialog = false;
+            this.slide = 100;
+        },
+        resetRatio() {
+            this.dialog = false;
+            this.slide = 100;
+        },
+        begin() {
+            this.state = 1;
+        },
+        flag() {
+            this.redirect();
+        },
+        pause() {
+            this.state = 2;
+        },
+        stop() {
+            this.state = 0;
+        },
+        restart() {
+            this.state = 1;
+        }
     }
 };
 </script>
+
+<style scoped>
+.dots {
+    margin-top: 3vw;
+    margin-right: 5vw;
+    margin-bottom: 2vw;
+}
+
+.title-font {
+    font-size: 7vw;
+    margin-left: 7vw;
+}
+
+.time-font {
+    font-size: 16vw;
+    font-family: sans-serif;
+}
+
+.time-fix {
+    margin-top: 28vh;
+}
+
+.footer-fix {
+    margin-bottom: 8vw;
+}
+
+.button-gap {
+    margin-left: 6vw;
+    margin-right: 6vw;
+}
+</style>
