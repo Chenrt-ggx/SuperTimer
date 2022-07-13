@@ -3,7 +3,7 @@
         <div class="text-right dots">
             <v-icon color="black" size="28" @click="dialog = true">mdi-dots-vertical</v-icon>
         </div>
-        <div class="text-left grey--text font-weight-light">
+        <div class="text-left grey--text title-fix">
             <span class="title-font" @click="redirect">闹钟</span>
             <span class="title-font" @click="redirect">时钟</span>
             <span class="title-font" style="color: #2196f3">秒表</span>
@@ -21,24 +21,24 @@
             <v-spacer></v-spacer>
         </v-row>
         <div class="text-center footer-fix">
-            <v-btn color="white" fab large @click="begin" v-if="state === 0">
+            <v-btn color="white" fab large @click="begin" v-if="state === 0" elevation="4">
                 <v-icon color="primary" size="36">mdi-play</v-icon>
             </v-btn>
             <div v-if="state === 1">
-                <v-btn color="white" fab large @click="flag">
+                <v-btn color="white" fab large @click="flag" elevation="4">
                     <v-icon color="primary" size="32">mdi-flag</v-icon>
                 </v-btn>
                 <span class="button-gap"></span>
-                <v-btn color="white" fab large @click="pause">
+                <v-btn color="white" fab large @click="pause" elevation="4">
                     <v-icon color="primary" size="36">mdi-pause</v-icon>
                 </v-btn>
             </div>
             <div v-if="state === 2">
-                <v-btn color="white" fab large @click="stop">
+                <v-btn color="white" fab large @click="stop" elevation="4">
                     <v-icon color="primary" size="36">mdi-stop</v-icon>
                 </v-btn>
                 <span class="button-gap"></span>
-                <v-btn color="white" fab large @click="begin">
+                <v-btn color="white" fab large @click="begin" elevation="4">
                     <v-icon color="primary" size="36">mdi-play</v-icon>
                 </v-btn>
             </div>
@@ -152,21 +152,27 @@ export default {
 .dots {
     margin-top: 3vw;
     margin-right: 5vw;
-    margin-bottom: 2vw;
+    margin-bottom: 4vw;
+}
+
+.title-fix {
+    margin-left: 1vw;
 }
 
 .title-font {
-    font-size: 7vw;
-    margin-left: 7vw;
+    font-size: 8vw;
+    margin-left: 5vw;
+    font-weight: 300;
 }
 
 .time-font {
-    font-size: 16vw;
+    font-size: 19vw;
     font-family: sans-serif;
 }
 
 .time-fix {
-    margin-top: 28vh;
+    margin-top: 24vh;
+    font-weight: 360;
 }
 
 .footer-fix {
