@@ -38,7 +38,7 @@
                     <v-icon color="primary" size="36">mdi-stop</v-icon>
                 </v-btn>
                 <span class="button-gap"></span>
-                <v-btn color="white" fab large @click="restart">
+                <v-btn color="white" fab large @click="begin">
                     <v-icon color="primary" size="36">mdi-play</v-icon>
                 </v-btn>
             </div>
@@ -52,6 +52,7 @@
                         class="mt-10"
                         v-model="slide"
                         prepend-icon="mdi-speedometer"
+                        :step="5"
                         :max="400"
                         :min="25"
                     ></v-slider>
@@ -80,10 +81,25 @@ export default {
             state: 0,
             ratio: 1,
             slide: 100,
-            dialog: false
+            dialog: false,
+            interval: null
         };
     },
     methods: {
+        async updateTime() {
+            this.millisecond++;
+            if (this.millisecond > 99) {
+                this.millisecond = 0;
+                this.second++;
+                if (this.second > 59) {
+                    this.second = 0;
+                    this.minute++;
+                    if (this.minute > 59) {
+                        this.minute = 0;
+                    }
+                }
+            }
+        },
         redirect() {
             window.location = 'https://www.bilibili.com/video/BV1uT4y1P7CX';
         },
@@ -97,19 +113,20 @@ export default {
             this.slide = 100;
         },
         begin() {
+            this.interval = setInterval(this.updateTime, 10 / this.ratio);
             this.state = 1;
         },
         flag() {
             this.redirect();
         },
         pause() {
+            clearInterval(this.interval);
             this.state = 2;
         },
         stop() {
+            clearInterval(this.interval);
+            this.minute = this.second = this.millisecond = 0;
             this.state = 0;
-        },
-        restart() {
-            this.state = 1;
         }
     }
 };
