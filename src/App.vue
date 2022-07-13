@@ -1,12 +1,12 @@
 <template>
     <v-app id="app">
         <div class="text-right dots">
-            <v-icon color="black" size="22" @click="dialog = true">mdi-dots-vertical</v-icon>
+            <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" @click="dialog = true" />
         </div>
         <div class="text-left grey--text">
             <span class="title-begin" @click="redirect">闹钟</span>
             <span class="title-font" @click="redirect">时钟</span>
-            <span class="title-font" style="color: #2196f3">秒表</span>
+            <span class="title-font" style="color: #2382f3">秒表</span>
             <span class="title-font" @click="redirect">计时</span>
         </div>
         <v-row class="time-font">
@@ -38,24 +38,24 @@
         </v-row>
         <div class="text-center footer-fix">
             <v-btn color="white" fab large @click="begin" v-if="state === 0" elevation="3">
-                <v-icon color="primary" size="36">mdi-play</v-icon>
+                <font-awesome-icon icon="fa-solid fa-play" class="ml-1 button-icon" />
             </v-btn>
             <div v-if="state === 1">
                 <v-btn color="white" fab large @click="flag" elevation="3">
-                    <v-icon color="primary" size="32">mdi-flag</v-icon>
+                    <font-awesome-icon icon="fa-solid fa-flag" class="button-icon" style="font-size: 20px" />
                 </v-btn>
                 <span class="button-gap"></span>
                 <v-btn color="white" fab large @click="pause" elevation="3">
-                    <v-icon color="primary" size="36">mdi-pause</v-icon>
+                    <font-awesome-icon icon="fa-solid fa-pause" class="button-icon" style="font-size: 28px" />
                 </v-btn>
             </div>
             <div v-if="state === 2">
                 <v-btn color="white" fab large @click="stop" elevation="3">
-                    <v-icon color="primary" size="36">mdi-stop</v-icon>
+                    <font-awesome-icon icon="fa-solid fa-stop" class="button-icon" />
                 </v-btn>
                 <span class="button-gap"></span>
                 <v-btn color="white" fab large @click="begin" elevation="3">
-                    <v-icon color="primary" size="36">mdi-play</v-icon>
+                    <font-awesome-icon icon="fa-solid fa-play" class="ml-1 button-icon" />
                 </v-btn>
             </div>
         </div>
@@ -64,17 +64,10 @@
                 <v-card-title>倍率选择</v-card-title>
                 <v-divider></v-divider>
                 <v-card-text class="text-center">
-                    <v-slider
-                        class="mt-10"
-                        v-model="slide"
-                        prepend-icon="mdi-speedometer"
-                        :step="5"
-                        :max="400"
-                        :min="25"
-                    />
-                    {{ '当前倍率: ' + ratio }}
+                    <v-slider class="mt-10" v-model="slide" :step="5" :max="400" :min="25" />
+                    {{ '当前倍率: ' + fixValue(ratio) }}
                     <span class="mx-4">|</span>
-                    {{ '更新倍率: ' + slide / 100 }}
+                    {{ '更新倍率: ' + fixValue(slide / 100) }}
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
@@ -138,6 +131,17 @@ export default {
             this.dialog = false;
             this.slide = 100;
         },
+        fixValue(value) {
+            const src = value.toString();
+            const index = src.indexOf('.');
+            if (index === -1) {
+                return src + '.00';
+            } else if (index + 2 === src.length) {
+                return src + '0';
+            } else {
+                return src;
+            }
+        },
         begin() {
             this.fix = this.minute * 60000 + this.second * 1000 + this.millisecond * 10;
             this.mainInterval = setInterval(this.updateTime, 10 / this.ratio);
@@ -196,9 +200,10 @@ body {
 
 <style scoped>
 .dots {
+    font-size: 20px;
     margin-top: 3.7vw;
-    margin-right: 6.4vw;
-    margin-bottom: 4.3vw;
+    margin-right: 8.4vw;
+    margin-bottom: 3vw;
 }
 
 .title-begin {
@@ -235,7 +240,12 @@ body {
 }
 
 .footer-fix {
-    margin-bottom: 5vw;
+    margin-bottom: 5.5vw;
+}
+
+.button-icon {
+    color: #2382f3;
+    font-size: 24px;
 }
 
 .button-gap {
