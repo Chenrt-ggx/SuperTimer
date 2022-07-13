@@ -82,7 +82,9 @@ export default {
             ratio: 1,
             slide: 100,
             dialog: false,
-            interval: null
+            mainInterval: null,
+            fixInterval: null,
+            timeStamp: null
         };
     },
     methods: {
@@ -100,10 +102,17 @@ export default {
                 }
             }
         },
+        async fixTime() {
+            const real = Math.round((+new Date() - this.timeStamp) * this.ratio);
+            this.minute = Math.floor(real / 60000) % 60;
+            this.second = Math.floor(real / 1000) % 60;
+            this.millisecond = Math.floor((real % 1000) / 10);
+        },
         redirect() {
             window.location = 'https://www.bilibili.com/video/BV1uT4y1P7CX';
         },
         setRatio() {
+            this.stop();
             this.ratio = this.slide / 100;
             this.dialog = false;
             this.slide = 100;
@@ -113,18 +122,22 @@ export default {
             this.slide = 100;
         },
         begin() {
-            this.interval = setInterval(this.updateTime, 10 / this.ratio);
+            this.mainInterval = setInterval(this.updateTime, 10 / this.ratio);
+            this.fixInterval = setInterval(this.fixTime, 1000 * 10);
+            this.timeStamp = +new Date();
             this.state = 1;
         },
         flag() {
             this.redirect();
         },
         pause() {
-            clearInterval(this.interval);
+            clearInterval(this.mainInterval);
+            clearInterval(this.fixInterval);
             this.state = 2;
         },
         stop() {
-            clearInterval(this.interval);
+            clearInterval(this.mainInterval);
+            clearInterval(this.fixInterval);
             this.minute = this.second = this.millisecond = 0;
             this.state = 0;
         }
