@@ -14,19 +14,19 @@
             <div>
                 <div class="time-fix">
                     <span>{{ '0'.repeat(2).concat(minute).slice(-2) }}</span>
-                    <span class="mx-n1">:</span>
+                    <span class="sign-font">:</span>
                     <span>{{ '0'.repeat(2).concat(second).slice(-2) }}</span>
-                    <span class="mx-n1">.</span>
+                    <span class="sign-font">.</span>
                     <span>{{ '0'.repeat(2).concat(millisecond).slice(-2) }}</span>
                 </div>
-                <div class="display-slider">
+                <div class="display-slider text-center">
                     <v-slider
                         :min="0"
                         :max="59"
                         :step="1"
                         ticks="always"
                         :tick-size="2"
-                        value="second"
+                        :value="second"
                         track-color="white"
                         track-fill-color="white"
                         thumb-size="20"
@@ -37,24 +37,24 @@
             <v-spacer></v-spacer>
         </v-row>
         <div class="text-center footer-fix">
-            <v-btn color="white" fab large @click="begin" v-if="state === 0" elevation="4">
+            <v-btn color="white" fab large @click="begin" v-if="state === 0" elevation="3">
                 <v-icon color="primary" size="36">mdi-play</v-icon>
             </v-btn>
             <div v-if="state === 1">
-                <v-btn color="white" fab large @click="flag" elevation="4">
+                <v-btn color="white" fab large @click="flag" elevation="3">
                     <v-icon color="primary" size="32">mdi-flag</v-icon>
                 </v-btn>
                 <span class="button-gap"></span>
-                <v-btn color="white" fab large @click="pause" elevation="4">
+                <v-btn color="white" fab large @click="pause" elevation="3">
                     <v-icon color="primary" size="36">mdi-pause</v-icon>
                 </v-btn>
             </div>
             <div v-if="state === 2">
-                <v-btn color="white" fab large @click="stop" elevation="4">
+                <v-btn color="white" fab large @click="stop" elevation="3">
                     <v-icon color="primary" size="36">mdi-stop</v-icon>
                 </v-btn>
                 <span class="button-gap"></span>
-                <v-btn color="white" fab large @click="begin" elevation="4">
+                <v-btn color="white" fab large @click="begin" elevation="3">
                     <v-icon color="primary" size="36">mdi-play</v-icon>
                 </v-btn>
             </div>
@@ -203,19 +203,19 @@ body {
 
 .title-begin {
     font-size: 8vw;
-    margin-left: 7vw;
     font-weight: 300;
+    margin-left: 7vw;
 }
 
 .title-font {
     font-size: 8vw;
-    margin-left: 4.5vw;
     font-weight: 300;
+    margin-left: 4.5vw;
 }
 
 .time-fix {
-    margin-top: 23.5vh;
     font-weight: 360;
+    margin-top: 23.5vh;
 }
 
 .time-font {
@@ -223,7 +223,14 @@ body {
     font-family: sans-serif;
 }
 
+.sign-font {
+    margin-left: -0.1vw;
+    margin-right: -0.1vw;
+}
+
 .display-slider {
+    width: 94%;
+    margin-left: 3%;
     margin-top: -0.5vh;
 }
 
