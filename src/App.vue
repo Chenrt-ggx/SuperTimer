@@ -1,23 +1,39 @@
 <template>
-    <v-app>
+    <v-app id="app">
         <div class="text-right dots">
-            <v-icon color="black" size="28" @click="dialog = true">mdi-dots-vertical</v-icon>
+            <v-icon color="black" size="22" @click="dialog = true">mdi-dots-vertical</v-icon>
         </div>
-        <div class="text-left grey--text title-fix">
-            <span class="title-font" @click="redirect">闹钟</span>
+        <div class="text-left grey--text">
+            <span class="title-begin" @click="redirect">闹钟</span>
             <span class="title-font" @click="redirect">时钟</span>
             <span class="title-font" style="color: #2196f3">秒表</span>
             <span class="title-font" @click="redirect">计时</span>
         </div>
         <v-row class="time-font">
             <v-spacer></v-spacer>
-            <span class="time-fix">
-                <span>{{ '0'.repeat(2).concat(minute).slice(-2) }}</span>
-                <span class="mx-n1">:</span>
-                <span>{{ '0'.repeat(2).concat(second).slice(-2) }}</span>
-                <span class="mx-n1">.</span>
-                <span>{{ '0'.repeat(2).concat(millisecond).slice(-2) }}</span>
-            </span>
+            <div>
+                <div class="time-fix">
+                    <span>{{ '0'.repeat(2).concat(minute).slice(-2) }}</span>
+                    <span class="mx-n1">:</span>
+                    <span>{{ '0'.repeat(2).concat(second).slice(-2) }}</span>
+                    <span class="mx-n1">.</span>
+                    <span>{{ '0'.repeat(2).concat(millisecond).slice(-2) }}</span>
+                </div>
+                <div class="display-slider">
+                    <v-slider
+                        :min="0"
+                        :max="59"
+                        :step="1"
+                        ticks="always"
+                        :tick-size="2"
+                        value="second"
+                        track-color="white"
+                        track-fill-color="white"
+                        thumb-size="20"
+                        readonly
+                    />
+                </div>
+            </div>
             <v-spacer></v-spacer>
         </v-row>
         <div class="text-center footer-fix">
@@ -55,7 +71,7 @@
                         :step="5"
                         :max="400"
                         :min="25"
-                    ></v-slider>
+                    />
                     {{ '当前倍率: ' + ratio }}
                     <span class="mx-4">|</span>
                     {{ '更新倍率: ' + slide / 100 }}
@@ -148,35 +164,71 @@ export default {
 };
 </script>
 
-<style scoped>
-.dots {
-    margin-top: 3vw;
-    margin-right: 5vw;
-    margin-bottom: 4vw;
+<style lang="scss">
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.title-fix {
-    margin-left: 1vw;
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+}
+
+.display-slider {
+    .v-slider__thumb {
+        width: 4px;
+        height: 4px;
+        color: white;
+    }
+
+    .v-slider__tick {
+        border-radius: 1px;
+        background-color: #e5e5e5;
+    }
+}
+</style>
+
+<style scoped>
+.dots {
+    margin-top: 3.7vw;
+    margin-right: 6.4vw;
+    margin-bottom: 4.3vw;
+}
+
+.title-begin {
+    font-size: 8vw;
+    margin-left: 7vw;
+    font-weight: 300;
 }
 
 .title-font {
     font-size: 8vw;
-    margin-left: 5vw;
+    margin-left: 4.5vw;
     font-weight: 300;
 }
 
-.time-font {
-    font-size: 19vw;
-    font-family: sans-serif;
-}
-
 .time-fix {
-    margin-top: 24vh;
+    margin-top: 23.5vh;
     font-weight: 360;
 }
 
+.time-font {
+    font-size: 18.4vw;
+    font-family: sans-serif;
+}
+
+.display-slider {
+    margin-top: -0.5vh;
+}
+
 .footer-fix {
-    margin-bottom: 8vw;
+    margin-bottom: 5vw;
 }
 
 .button-gap {
