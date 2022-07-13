@@ -122,9 +122,10 @@ export default {
             this.slide = 100;
         },
         begin() {
+            const fix = this.minute * 60000 + this.second * 1000 + this.millisecond * 10;
             this.mainInterval = setInterval(this.updateTime, 10 / this.ratio);
             this.fixInterval = setInterval(this.fixTime, 1000 * 10);
-            this.timeStamp = +new Date();
+            this.timeStamp = +new Date() - fix;
             this.state = 1;
         },
         flag() {
@@ -133,6 +134,7 @@ export default {
         pause() {
             clearInterval(this.mainInterval);
             clearInterval(this.fixInterval);
+            this.fixTime();
             this.state = 2;
         },
         stop() {
