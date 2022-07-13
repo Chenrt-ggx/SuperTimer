@@ -75,6 +75,7 @@
 export default {
     data: function () {
         return {
+            fix: 0,
             minute: 0,
             second: 0,
             millisecond: 0,
@@ -103,7 +104,7 @@ export default {
             }
         },
         async fixTime() {
-            const real = Math.round((+new Date() - this.timeStamp) * this.ratio);
+            const real = Math.round((+new Date() - this.timeStamp) * this.ratio) + this.fix;
             this.minute = Math.floor(real / 60000) % 60;
             this.second = Math.floor(real / 1000) % 60;
             this.millisecond = Math.floor((real % 1000) / 10);
@@ -122,10 +123,10 @@ export default {
             this.slide = 100;
         },
         begin() {
-            const fix = this.minute * 60000 + this.second * 1000 + this.millisecond * 10;
+            this.fix = this.minute * 60000 + this.second * 1000 + this.millisecond * 10;
             this.mainInterval = setInterval(this.updateTime, 10 / this.ratio);
-            this.fixInterval = setInterval(this.fixTime, 1000 * 10);
-            this.timeStamp = +new Date() - fix;
+            this.fixInterval = setInterval(this.fixTime, 1000 * 5);
+            this.timeStamp = +new Date();
             this.state = 1;
         },
         flag() {
