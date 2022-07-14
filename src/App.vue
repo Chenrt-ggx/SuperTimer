@@ -37,24 +37,24 @@
             <v-spacer></v-spacer>
         </v-row>
         <div class="text-center footer-fix">
-            <v-btn color="white" fab large @click="begin" v-if="state === 0" elevation="3">
+            <v-btn color="white" fab large @click="begin" v-if="state === 0">
                 <font-awesome-icon icon="fa-solid fa-play" class="ml-1 button-icon" />
             </v-btn>
             <div v-if="state === 1">
-                <v-btn color="white" fab large @click="flag" elevation="3">
+                <v-btn color="white" fab large @click="flag">
                     <font-awesome-icon icon="fa-solid fa-flag" class="button-icon" style="font-size: 20px" />
                 </v-btn>
                 <span class="button-gap"></span>
-                <v-btn color="white" fab large @click="pause" elevation="3">
+                <v-btn color="white" fab large @click="pause">
                     <font-awesome-icon icon="fa-solid fa-pause" class="button-icon" style="font-size: 28px" />
                 </v-btn>
             </div>
             <div v-if="state === 2">
-                <v-btn color="white" fab large @click="stop" elevation="3">
+                <v-btn color="white" fab large @click="stop">
                     <font-awesome-icon icon="fa-solid fa-stop" class="button-icon" />
                 </v-btn>
                 <span class="button-gap"></span>
-                <v-btn color="white" fab large @click="begin" elevation="3">
+                <v-btn color="white" fab large @click="begin">
                     <font-awesome-icon icon="fa-solid fa-play" class="ml-1 button-icon" />
                 </v-btn>
             </div>
@@ -71,7 +71,7 @@
                         {{ '更新倍率: ' + fixValue(slide / 100) }}
                     </div>
                     <div v-if="Math.round(1000 / slide) === 1000 / slide" class="my-2">当前倍率可正常计时</div>
-                    <div v-else class="red--text my-2">由于 setInterval 精度问题，当前倍率可能出现跳变</div>
+                    <div v-else class="red--text my-2">因 setInterval 精度有限，此倍率可能发生跳变</div>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
@@ -213,6 +213,13 @@ body {
         background-color: #e5e5e5;
     }
 }
+
+.footer-fix {
+    .v-btn--is-elevated.v-btn--fab {
+        box-shadow: 0 3px 5px 1px rgba(35, 130, 243, 0.1), 0 1px 1px 0 rgba(35, 130, 243, 0.07),
+            0 1px 1px 0 rgba(35, 130, 243, 0.06);
+    }
+}
 </style>
 
 <style scoped>
@@ -253,7 +260,7 @@ body {
 .display-slider {
     width: 96%;
     margin-left: 2%;
-    margin-top: -0.5vh;
+    margin-top: -0.6vh;
 }
 
 .footer-fix {
