@@ -236,13 +236,13 @@ body {
 }
 
 .time-fix {
-    font-weight: 360;
-    margin-top: 23.5vh;
+    font-weight: 400;
+    margin-top: 23.7vh;
 }
 
 .time-font {
-    font-size: 18.4vw;
-    font-family: sans-serif;
+    font-size: 18.3vw;
+    font-family: Roboto, monospace;
 }
 
 .sign-font {
@@ -251,8 +251,8 @@ body {
 }
 
 .display-slider {
-    width: 94%;
-    margin-left: 3%;
+    width: 96%;
+    margin-left: 2%;
     margin-top: -0.5vh;
 }
 
