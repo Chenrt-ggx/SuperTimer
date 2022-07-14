@@ -64,16 +64,21 @@
                 <v-card-title>倍率选择</v-card-title>
                 <v-divider></v-divider>
                 <v-card-text class="text-center">
-                    <v-slider class="mt-10" v-model="slide" :step="5" :max="400" :min="25" />
-                    {{ '当前倍率: ' + fixValue(ratio) }}
-                    <span class="mx-4">|</span>
-                    {{ '更新倍率: ' + fixValue(slide / 100) }}
+                    <v-slider class="mt-10" v-model="slide" :step="5" :max="250" :min="25" />
+                    <div>
+                        {{ '当前倍率: ' + fixValue(ratio) }}
+                        <span class="mx-4">|</span>
+                        {{ '更新倍率: ' + fixValue(slide / 100) }}
+                    </div>
+                    <div v-if="Math.round(1000 / slide) === 1000 / slide" class="my-2">当前倍率可正常计时</div>
+                    <div v-else class="red--text my-2">由于 setInterval 精度问题，当前倍率可能出现跳变</div>
                 </v-card-text>
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="error" text dark @click="resetRatio">取消</v-btn>
-                    <v-btn color="success" text dark @click="setRatio">确认</v-btn>
+                    <v-btn color="primary" text dark @click="setRatio">应用</v-btn>
+                    <v-btn color="success" text dark @click="refreshRatio">刷新</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -121,11 +126,23 @@ export default {
         redirect() {
             window.location = 'https://www.bilibili.com/video/BV1uT4y1P7CX';
         },
-        setRatio() {
-            this.stop();
+        updateRatio() {
             this.ratio = this.slide / 100;
             this.dialog = false;
             this.slide = 100;
+        },
+        setRatio() {
+            if (this.state === 1) {
+                this.pause();
+                this.updateRatio();
+                this.begin();
+            } else {
+                this.updateRatio();
+            }
+        },
+        refreshRatio() {
+            this.stop();
+            this.updateRatio();
         },
         resetRatio() {
             this.dialog = false;
@@ -145,7 +162,7 @@ export default {
         begin() {
             this.fix = this.minute * 60000 + this.second * 1000 + this.millisecond * 10;
             this.mainInterval = setInterval(this.updateTime, 10 / this.ratio);
-            this.fixInterval = setInterval(this.fixTime, 1000 * 5);
+            this.fixInterval = setInterval(this.fixTime, 1000);
             this.timeStamp = +new Date();
             this.state = 1;
         },
